@@ -15,19 +15,8 @@ $products = [
         'description'   => 'Razer',
         'value'         =>  125.00,
         'date_register' => '2017-10-25',
-    ],
-    [
-        'name'          => 'Keyboard',
-        'description'   => 'Mechanical Keyboard',
-        'value'         =>  250.00,
-        'date_register' => '2017-06-23',
-    ],
-    [
-        'name'          => 'Dildo',
-        'description'   => 'BLACK AND BIG',
-        'value'         =>  69.00,
-        'date_register' => '2017-06-20',
-    ],
+    ]
+
 ];
 
 // Render our view
