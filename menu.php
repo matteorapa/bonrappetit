@@ -1,19 +1,32 @@
 <?php
 
 require_once __DIR__.'/bootstrap.php';
+require 'database.php';
+/*
+$fav = "SELECT * FROM favourites WHERE userID = '" . $_SESSION['userID'] . "' ";
+$favQuery = $conn->query($fav) or die($conn->error);
 
-include 'database.php';
+$function = new \Twig\TwigFunction('isFavourite', function ($favDishId) {
 
-function authenticateUser(){
+  while( $return = $favQuery->fetch_assoc()){//check and show that is fav
+      if($favDishId == $return['dishID']){
+          return true;
+      }
+}
+return false;
+});
+$twig->addFunction($function);
 
-  if(!empty($_SESSION['auth'])){
+$function2 = new \Twig\TwigFunction('authenticateUser', function ($auth) {
+  if(!empty($auth)){
+      if($auth == 1){
         echo "<script>login();</script>";
 
       }
     }
-
-  }
-
+});
+$twig->addFunction($function2);
+*/
 
   if(isset($_GET['q'])){
     if(!empty($_GET['q'])){

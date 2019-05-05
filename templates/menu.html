@@ -27,7 +27,7 @@
          </div>
 
 
-         {# authenticateUser() #}
+         {# authenticateUser(session.auth) #}
          <!--if auth = true display account-->
 
     <br><br>
@@ -46,20 +46,19 @@
                 <h1 class="dish-price">{{result.dish_price}}</h1>
           </div>
 
-          {% if session.userID != null %}
+          {# if isFavourite({{result.dishid}}) == true #}
 
-            {% include 'managefav.php' %}
                   <form  class="fav-icon" action="server/favouriteSERVER.php" method="post">
                         <button  class="fav-icon-true" type="submit" name="makenotfav" value="{{result.dishid}}" style="border: none; outline: none; background-color: white;"><i class="fas fa-heart"></i></button>
                   </form>
 
-          {% else %}
+          {# else #}
 
             <form class="fav-icon"method="POST" action="server/favouriteSERVER.php">
               <button class="fav-icon-false" type="submit" name="makefav" value="{{result.dishid}}" style="border: none; outline: none; background-color: white;"><i class="far fa-heart"></i></button>
             </form>
 
-          {% endif %}
+          {# endif #}
 
         </div>
       </div>
