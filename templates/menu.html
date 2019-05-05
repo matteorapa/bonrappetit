@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Our Menu</title>
+        <link rel="stylesheet" href='https://use.fontawesome.com/releases/v5.7.0/css/all.css'
+          integrity='sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ' crossorigin='anonymous'>
+        <link rel="stylesheet" href="styling.css">
+
+
+    </head>
+    <body style="overflow-x: hidden;">
+
+
+          {% include 'header.html'%}
+         <div id="filter">
+
+           <form method="get" action="menu.php" >
+
+               <input type="submit" class="input-button-filter" name="q" value="All">
+               <input type="submit" class="input-button-filter" name="q" value="Entree">
+               <input type="submit" class="input-button-filter" name="q" value="Main">
+               <input type="submit" class="input-button-filter" name="q" value="Dessert">
+               <input type="submit" class="input-button-filter" name="q" value="Wine">
+               <!--input type="text" id="search-bar" placeholder="Search" name="search"-->
+               <!--button type="submit" id="submit-button"><i class="fa fa-search"></i></button-->
+           </form>
+         </div>
+
+
+        
+         <!--if auth = true display account-->
+         <?php if(!empty($_SESSION['auth'])){
+             if($_SESSION['auth'] == 1){ ?>
+                 <script>login();</script>
+             <?php }
+             }
+             ?>
+
+
+    <br><br>
+    <div class="dish-container">
+      <?php
+          if(isset($_GET['q'])){
+            if(!empty($_GET['q'])){
+                if(strtolower($_GET['q']) == 'all'){
+                    $query = "SELECT * FROM dishes";
+                }else {
+                    $query = "SELECT * FROM dishes WHERE dish_category = '" . $_GET['q'] . "'";
+                }
+            }
+          } else {
+              $query = "SELECT * FROM dishes";
+          }
+
+          $host = "localhost";
+          $usernameDB = "root";
+          $pwd = "";
+          $datab = "ass";
+
+
+          $conn = new mysqli($host, $usernameDB, $pwd, $datab);
+          if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+          }
+
+          $result = $conn->query($query) or die($conn->error);
+          while($row = $result->fetch_assoc()):
+          ?>
+
+          <div class="div-dish">
+            <div class="dish-container-inner">
+              <img class="div-img" src="<?php echo "assets/images/dish/".$row["dishid"].".jpg"; ?>">
+              <div class="dish-info">
+                 <h1 class="dish-title"><?php echo $row["dish_name"]; ?></h1>
+                 <hr>
+                 <h1 class="dish-about"><?php echo $row["dish_description"]; ?></h1>
+                 <h1 class="dish-price"><?php echo "€ ".$row["dish_price"]; ?></h1>
+              </div>
+
+              <?php
+                if(isset($_SESSION['userID'])){ //when user is logged in
+                  $fav = "SELECT * FROM favourites WHERE userID = '" . $_SESSION['userID'] . "' ";
+                  $favQuery = $conn->query($fav) or die($conn->error);
+
+                  $bool = 0;//if not favourite
+                  while( $return = $favQuery->fetch_assoc()){//check and show that is fav
+                      if($row['dishid'] == $return['dishID']){
+
+              ?>
+
+              <form  class="fav-icon" action="server/favouriteSERVER.php" method="post">
+                    <button  class="fav-icon-true" type="submit" name="makenotfav" value="<?php echo $row['dishid']; ?>" style="border: none; outline: none; background-color: white;"><i class="fas fa-heart"></i></button>
+              </form>
+
+              <?php
+
+              $bool = 1;
+                }
+              }
+
+              if($bool == 0){//when not favourite add option to make fav
+              ?>
+              <form class="fav-icon"method="POST" action="server/favouriteSERVER.php">
+                <button class="fav-icon-false" type="submit" name="makefav" value="<?php echo $row['dishid']; ?>" style="border: none; outline: none; background-color: white;"><i class="far fa-heart"></i></button>
+              </form>
+
+              <?php
+                }
+              }
+              ?>
+
+            </div>
+          </div>
+
+        <?php endwhile; ?>
+        </div>
+        <br>
+
+
+
+        {% include 'footer.html'%}
+
+    </body>
+
+    <script src="scripts.js" charset="utf-8"></script>
+</html>

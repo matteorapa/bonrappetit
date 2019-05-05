@@ -1,0 +1,28 @@
+<div id="topbar">
+
+      <a id="bon-rappétit" href="index.php"><h1 style="margin: 0; padding: 0;">bon rappétit</h1></a>
+      <!--main-navbar-->
+      <div class="navbar" id="nav">
+          <a href="index.php">Home</a>
+          <a href="menu.php">Our Menu</a>
+          <a href="bookatable.php">Book a table</a>
+          <a href="contactus.php">Contact Us</a>
+          <div id="acc" class="dropdown">
+            <button class="dropbtn">
+              {{session.username}}
+
+              <i class="fa fa-fw fa-user"></i>
+
+           </button>
+           <div class="dropdown-content">
+              <a href="bookings.php">Bookings</a>
+              <a href="complaints.php">Complaints</a>
+              <a href="favourites.php">Favourites</a>
+              <form method="GET" action="server/logout.php">
+                  <input class="clean-button" type="submit" value="Log-out!" name="logout">
+              </form>
+            </div>
+        </div>
+        <button type="button" align="right" id="nav-login-button"><a href="signin.php" style="text-decoration: none;">Login</a></button>
+    </div>
+</div>
